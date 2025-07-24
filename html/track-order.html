@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Track Your Order</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap');
+
+  body {
+    margin: 0;
+    font-family: 'Times New Roman', serif;
+    background: #fff;
+    color: #111a0b;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+  }
+
+  .container {
+    max-width: 360px;
+    width: 100%;
+    text-align: center;
+    padding: 16px 24px 32px 24px;
+    box-sizing: border-box;
+    position: relative;
+  }
+
+  /* Close button top right */
+  .close-btn {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    font-weight: 700;
+    font-size: 24px;
+    color: #111a0b;
+    cursor: pointer;
+    user-select: none;
+  }
+
+  /* Logo */
+  .logo {
+    margin-bottom: 8px;
+  }
+  .logo svg {
+    height: 56px;
+    width: 56px;
+    fill: #111a0b;
+    vertical-align: middle;
+  }
+  .logo-text {
+    font-family: 'Great Vibes', cursive;
+    font-size: 48px;
+    color: #111a0b;
+    margin-left: 8px;
+    vertical-align: middle;
+  }
+  .logo-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 24px;
+  }
+
+  /* Truck icon */
+  .truck-icon {
+    font-size: 72px;
+    margin-bottom: 16px;
+    user-select: none;
+  }
+
+  /* Title */
+  h2.title {
+    font-weight: 700;
+    font-size: 22px;
+    margin-bottom: 20px;
+  }
+
+  /* Toggle buttons for Order ID/Invoice ID */
+  .toggle-group {
+    display: flex;
+    border: 1.3px solid #111a0b;
+    border-radius: 10px;
+    overflow: hidden;
+    width: 100%;
+    max-width: 350px;
+    margin: 0 auto 28px auto;
+  }
+  .toggle-btn {
+    flex: 1;
+    padding: 8px 0;
+    font-weight: 700;
+    font-size: 18px;
+    cursor: pointer;
+    user-select: none;
+    border: none;
+    background: #fff;
+    color: #111a0b;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    outline-offset: -3px;
+  }
+  .toggle-btn:first-child {
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+  }
+  .toggle-btn:last-child {
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+  }
+  .toggle-btn.active {
+    background-color: #a7c6a0;
+    color: #5a6a50;
+  }
+  .toggle-btn:not(.active):hover {
+    background-color: #f0f3f0;
+  }
+
+  /* Input label */
+  .input-label {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 10px;
+  }
+
+  /* Input fields */
+  input[type="text"] {
+    width: 100%;
+    max-width: 350px;
+    box-sizing: border-box;
+    padding: 10px 14px;
+    font-size: 18px;
+    border: 1px solid #111a0b;
+    border-radius: 10px;
+    margin-bottom: 14px;
+    font-family: 'Times New Roman', serif;
+    color: #767d6f;
+  }
+  input[type="text"]::placeholder {
+    color: #a1a595;
+  }
+  input[type="text"]:focus {
+    outline: 3px solid #a7c6a0;
+  }
+
+  /* Track button */
+  button.track-btn {
+    background-color: #188217;
+    border: none;
+    border-radius: 12px;
+    padding: 12px 52px;
+    font-size: 22px;
+    font-weight: 700;
+    color: #222b11;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    user-select: none;
+    font-family: 'Times New Roman', serif;
+    box-shadow: inset 0 -4px 6px #0b620b80;
+  }
+  button.track-btn:hover {
+    background-color: #166916;
+  }
+  button.track-btn:focus {
+    outline: 3px solid #a7c6a0;
+  }
+
+
+  .close-btn {
+  border: none;
+  background: none;
+  cursor: pointer;
+  font-size: 2.2em;
+  /* If using <a> instead of <button> */
+  display: inline-block;
+  text-decoration: none;
+  color: inherit;
+}
+</style>
+</head>
+<body>
+  <div class="container" role="main" aria-label="Order tracking interface">
+    <a href="main html.html" aria-label="Close tracking form and return to main page" class="close-btn" title="Close form and return to main page">
+  &times;
+</a>
+
+    <div class="logo-container" aria-label="Ray company logo">
+  <img src="image/logo.png" alt="Ray company logo" class="logo" width="64" height="64">
+  <span class="logo-text" aria-label="Ray company name">Ray</span>
+</div>
+
+<div class="truck-icon" aria-hidden="true" title="Delivery truck icon">
+  🚚</div>
+
+    <h2 class="title">Track your Order</h2>
+
+    <div role="tablist" aria-label="Select tracking type" class="toggle-group">
+      <button role="tab" aria-selected="true" aria-controls="orderIdInput" id="orderIdTab" class="toggle-btn active" type="button" onclick="toggleInput('order')">Order ID</button>
+      <button role="tab" aria-selected="false" aria-controls="invoiceIdInput" id="invoiceIdTab" class="toggle-btn" type="button" onclick="toggleInput('invoice')">Invoice ID</button>
+    </div>
+
+    <label for="trackingInput" class="input-label" id="instructionLabel">Enter your order ID or invoice ID</label>
+    <input type="text" id="trackingInput" aria-labelledby="instructionLabel" placeholder="Order ref.. No" />
+
+    <input type="text" id="billingContact" aria-label="Enter billing contact" placeholder="Enter Billing Contact" />
+
+    <button type="button" class="track-btn" onclick="trackOrder()">Track</button>
+  </div>
+
+<script>
+  function toggleInput(type) {
+    const orderTab = document.getElementById('orderIdTab');
+    const invoiceTab = document.getElementById('invoiceIdTab');
+    const input = document.getElementById('trackingInput');
+
+    if (type === 'order') {
+      orderTab.classList.add('active');
+      invoiceTab.classList.remove('active');
+      orderTab.setAttribute('aria-selected', 'true');
+      invoiceTab.setAttribute('aria-selected', 'false');
+      input.setAttribute('placeholder', 'Order ref.. No');
+      input.setAttribute('aria-label', 'Order Reference Number');
+    } else {
+      invoiceTab.classList.add('active');
+      orderTab.classList.remove('active');
+      invoiceTab.setAttribute('aria-selected', 'true');
+      orderTab.setAttribute('aria-selected', 'false');
+      input.setAttribute('placeholder', 'Invoice ref.. No');
+      input.setAttribute('aria-label', 'Invoice Reference Number');
+    }
+  }
+
+  function trackOrder() {
+    const trackingValue = document.getElementById('trackingInput').value.trim();
+    const billingContact = document.getElementById('billingContact').value.trim();
+
+    if (!trackingValue) {
+      alert('Please enter your order ID or invoice ID.');
+      return;
+    }
+    if (!billingContact) {
+      alert('Please enter billing contact.');
+      return;
+    }
+
+    alert('Tracking for "' + trackingValue + '" with billing contact "' + billingContact + '".');
+    // Place your tracking submission logic here.
+  }
+
+  function closeForm() {
+    alert('Close button clicked - implement as needed.');
+  }
+</script>
+</body>
+</html>
+

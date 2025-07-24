@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Ray - Our Story</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Merriweather&family=Roboto&display=swap');
+
+  :root {
+    --dark-green: #324936;
+    --cream-yellow: #d1bf72;
+    --white: #faf9f6;
+    --soft-beige: #f8f0df;
+    --soft-green: #c5c7b2;
+    --font-serif: 'Merriweather', serif;
+    --font-sans: 'Roboto', sans-serif;
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+
+  body {
+    margin: 0;
+    background-color: var(--dark-green);
+    color: var(--cream-yellow);
+    font-family: var(--font-serif);
+    line-height: 1.6;
+  }
+
+  .wrapper {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 2rem 1.5rem 4rem;
+  }
+  
+  .video-play-container {
+    width: 100%;
+    max-width: 350px;
+    margin: 2rem auto 4rem;
+    position: relative;
+    background-color: #121212;
+    height: 220px;
+    border-radius: 12px;
+    cursor: pointer;
+  }
+  .video-play-container::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border-style: solid;
+    border-width: 15px 0 15px 25px;
+    border-color: transparent transparent transparent #121212;
+    z-index: 1;
+    filter: brightness(1.5);
+  }
+  .video-play-circle {
+    position: absolute;
+    width: 56px;
+    height: 56px;
+    background-color: rgba(0,0,0,0.72);
+    border-radius: 50%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: background-color 0.3s ease;
+  }
+  .video-play-circle:hover {
+    background-color: rgba(0,0,0,0.9);
+  }
+  .video-play-circle svg {
+    fill: var(--cream-yellow);
+    width: 18px;
+    height: 18px;
+  }
+
+  h2 {
+    font-weight: 700;
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    text-decoration: underline;
+  }
+
+  .intro-section {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-bottom: 3.5rem;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .intro-text {
+    flex: 1 1 360px;
+    font-size: 1.25rem;
+    font-weight: 500;
+    max-width: 580px;
+    text-align: center;
+    color: var(--cream-yellow);
+  }
+
+  .intro-image {
+    flex: 0 0 220px;
+    border-radius: 8px;
+    box-shadow: 0 3px 15px rgb(0 0 0 / 0.6);
+    overflow: hidden;
+    align-self: center;
+  }
+
+  .intro-image img {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  .story-section {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-bottom: 4rem;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .story-text {
+    flex: 1 1 460px;
+    font-size: 1.18rem;
+    line-height: 1.55;
+    max-width: 620px;
+    color: var(--cream-yellow);
+    text-align: center;
+  }
+
+  .story-image {
+    flex: 0 0 220px;
+    border-radius: 8px;
+    box-shadow: 0 3px 15px rgb(0 0 0 / 0.6);
+    overflow: hidden;
+    align-self: center;
+  }
+  .story-image img {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  .features-section {
+    display: flex;
+    justify-content: space-between;
+    gap: 2rem;
+    flex-wrap: wrap;
+  }
+
+  .feature {
+    flex: 1;
+    min-width: 260px;
+    background-color: var(--soft-beige);
+    color: var(--dark-green);
+    border-radius: 8px;
+    padding: 1.5rem 1.35rem 2rem;
+    box-shadow: 0 0 15px rgb(0 0 0 / 0.12);
+    font-family: var(--font-sans);
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .feature img {
+    max-width: 160px;
+    margin-bottom: 1rem;
+    aspect-ratio: 4 / 3;
+    object-fit: contain;
+    border-radius: 6px;
+    box-shadow: 0 4px 12px rgb(0 0 0 / 0.08);
+  }
+
+  .feature h3 {
+    margin: 0.3rem 0 0.8rem;
+    font-weight: 700;
+    font-size: 1.15rem;
+    text-decoration: underline;
+  }
+
+  .feature p {
+    font-size: 0.9rem;
+    font-weight: 500;
+    line-height: 1.5;
+  }
+
+  @media (max-width: 768px) {
+    .intro-section, .story-section {
+      flex-direction: column;
+    }
+    .intro-text, .story-text {
+      max-width: 100%;
+      text-align: center;
+    }
+    .intro-image, .story-image {
+      flex: 0 0 auto;
+      max-width: 280px;
+      margin: 0 auto;
+    }
+    .features-section {
+      flex-direction: column;
+      gap: 2.5rem;
+    }
+    .feature {
+      max-width: 90vw;
+      margin: 0 auto;
+    }
+  }
+</style>
+</head>
+<body>
+<div class="wrapper" role="main" aria-label="Ray Our Story content section">
+  <div class="video-play-container" role="button" aria-label="Play video about Ray story" tabindex="0">
+    <div class="video-play-circle" aria-hidden="true">
+      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+        <path d="M8 5v14l11-7z"></path>
+      </svg>
+    </div>
+  </div>
+
+  <section class="intro-section" aria-labelledby="intro-title">
+    <h2 id="intro-title">Our Story</h2>
+    <p class="intro-text">
+      Hey there! I'm Siddhant Bhalinge,<br />
+      the Founder and CEO<br />
+      of Ray and I'd love to share our story with you.<br /><br />
+
+      It's a story of passion, perseverance,<br />
+      and a deep love for<br />
+      nature that's been passed down in my family<br />
+      for three generations.
+    </p>
+    <div class="intro-image">
+      <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/f80907fd-25b8-4093-a309-0e56d5db3379.png" alt="Portrait of Siddhant Bhalinge standing in an outdoor park area with colorful orange autumn trees in background, wearing a black and white checkered shirt, smiling and hands in pockets" onerror="this.style.display='none'" />
+    </div>
+  </section>
+
+  <section class="story-section" aria-labelledby="story-title">
+    <div class="story-image">
+      <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/95eb44e7-9bdd-4a0e-8c03-5f2931e6836a.png" alt="Man wearing glasses and plaid jacket trimming plants in a greenhouse surrounded by greenery, focused and content." onerror="this.style.display='none'" />
+    </div>
+    <p class="story-text" id="story-title">
+      Our story began with Namdeo Umaji<br />
+      The oldest seed company in India, founded by my<br />
+      great-grandfather in 1885.<br /><br />
+
+      As a young boy, I spent my days in his Byculla shop,<br />
+      surrounded by the promise of life contained in tiny seeds.<br />
+      Those formative years really were<br />
+      the stepping stones of Ray’s own journey.
+    </p>
+  </section>
+
+  <section class="features-section" aria-label="Key features: innovation, education, aesthetics">
+    <article class="feature" aria-labelledby="feature-innovation">
+      <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/e45da845-97c5-4693-9b0d-462e483d4ee9.png" alt="Illustration of a hand holding a small mound of soil with a young green plant with two leaves growing from it and small hearts floating in the sky above with a light beige background" onerror="this.style.display='none'" />
+      <h3 id="feature-innovation">Innovation</h3>
+      <p>Be it our cylinder packaging, self-watering pots, the online ordering experience, or even our R&D, we take pride in innovation and making the plant parenting journey easy and stress-free.</p>
+    </article>
+    <article class="feature" aria-labelledby="feature-education">
+      <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/88c40305-3200-40ab-8f99-459744d1d953.png" alt="Illustration of a potted monstera plant with large deep green leaves on a light tan background" onerror="this.style.display='none'" />
+      <h3 id="feature-education">Education</h3>
+      <p>Buying plants can sometimes be overwhelming, especially in the beginning. Through our blog, newsletter, and social channels, we’ve made a conscious effort to educate and inspire customers in their journey.</p>
+    </article>
+    <article class="feature" aria-labelledby="feature-aesthetics">
+      <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/3441ebce-b4f6-4cb3-9409-4989a4194418.png" alt="Illustration of a small plant with multiple green leaves growing from soil in a globe-shaped transparent blue pot, demonstrating eco-friendly and aesthetic concepts on a pale blue background" onerror="this.style.display='none'" />
+      <h3 id="feature-aesthetics">Aesthetics</h3>
+      <p>Our plants always enhance the space they occupy. We make concerted efforts in not only nurturing our plants in the best way possible, but making them look good too.</p>
+    </article>
+  </section>
+</div>
+</body>
+</html>
+
