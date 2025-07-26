@@ -1726,6 +1726,178 @@
 }
 
 
+/* =========================
+ ✅ SMART CART STYLES - CLASSIC DESIGN 
+========================= */
+body {
+  font-family: Georgia, serif;
+  margin: 0;
+  padding: 0;
+  background: white;
+  color: #121f13;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Cart Modal Container */
+/* Modal Panel */
+/* ========= CART PANEL ========= */
+#new-cart-x-modal {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 100%;
+  max-width: 600px;
+  height: 85%;
+  background: #ffffffee;
+  box-shadow: -2px 0 12px rgba(0, 0, 0, 0.15);
+  padding: 1rem 1.25rem;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  box-sizing: border-box;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+/* === CART HEADER === */
+.cart-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #ccc;
+  padding-bottom: 1px;
+  margin-bottom: 1rem;
+}
+.cart-header h2 {
+  font-family: Georgia, serif;
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin: 0;
+}
+
+/* === CART ITEMS === */
+.cart-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px dashed #ddd;
+}
+.cart-item img {
+  width: 48px;
+  height: 48px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+.cart-item strong {
+  font-size: 1rem;
+}
+.cart-item-price {
+  color: #444;
+  font-size: 0.95rem;
+}
+
+/* === QUANTITY CONTROLS === */
+.qty-number {
+  font-size: 1rem;
+  font-weight: bold;
+  width: 32px;
+  height: 32px;
+  background: #f0f0f0;
+  text-align: center;
+  line-height: 32px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  color: #121f13;
+}
+.cart-item button {
+  font-size: 1.2rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px 8px;
+  color: #333;
+}
+.cart-item button:hover {
+  color: #a00;
+}
+
+/* === RECOMMENDED PRODUCTS === */
+#new-cart-x-recommend {
+  margin-top: 1.5rem;
+}
+#new-cart-x-recommend h3 {
+  font-size: 1.2rem;
+  margin-bottom: 10px;
+  font-family: Georgia, serif;
+  font-weight: 700;
+}
+.smart-recommended-card {
+  min-width: 130px;
+  max-width: 140px;
+  background: #fff;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 10px;
+  text-align: center;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+}
+.smart-recommended-card img {
+  width: 100%;
+  height: 100px;
+  object-fit: contain;
+  margin-bottom: 6px;
+}
+.smart-reco-title {
+  font-weight: 600;
+  font-size: 0.9rem;
+  margin: 2px 0;
+}
+.smart-reco-price {
+  font-size: 0.85rem;
+  color: #2c5c2f;
+}
+
+/* === TOTAL & PAY NOW === */
+.cart-total {
+  font-size: 1.1rem;
+  font-weight: 600;
+  text-align: right;
+  margin-top: 1rem;
+}
+#cart-pay-now {
+  background: #2e7d32;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: bold;
+  padding: 12px;
+  width: 100%;
+  margin-top: 1rem;
+  cursor: pointer;
+}
+#cart-pay-now:hover {
+  background: #256528;
+}
+
+/* === RESPONSIVE === */
+@media (max-width: 460px) {
+  #new-cart-x-modal {
+    max-width: 100%;
+    padding: 1rem;
+  }
+  .qty-number {
+    width: 28px;
+    height: 28px;
+    line-height: 28px;
+  }
+}
+
+
+
   </style>
 
 </head>
@@ -1746,6 +1918,12 @@
     </div>
 
     
+
+
+    
+
+
+
 
     
 
@@ -1771,6 +1949,37 @@
   </span>
 </button>
 
+<div id="new-cart-x-modal" class="hidden cart-backdrop fixed inset-0 z-50 flex items-center justify-center">
+  <div class="cart-container bg-white rounded-xl shadow-lg p-4 w-[360px] max-h-[90vh] overflow-y-auto">
+    <header class="cart-header">
+      <h2>Shopping Cart (<span id="smart-cart-count">0</span>)</h2>
+      <button id="new-cart-x-close" class="close-btn" aria-label="Close cart">✕</button>
+      <button class="w-full bg-green-500 ..." onclick="addNewCartXItem('Lucky Bamboo Plan', 280, 'https://your-image-link.webp')">
+  Add to Basket
+</button>
+
+    </header>
+
+    <button class="btn-discount">Apply Discount At the Check Out</button>
+    <p class="empty-text">Your Cart Is currently Empty</p>
+    <div id="new-cart-x-items" class="space-y-4"></div>
+    <div class="btn-yellow">No Savings on this order</div>
+    <div class="font-bold text-lg">Total: ₹<span id="new-cart-x-total">0</span></div>
+    <button class="btn-green">Continue Browsing</button>
+    <div id="new-cart-x-items"></div>
+<div id="new-cart-x-total">0</div>
+<div id="smart-cart-icon-count">0</div>
+<p class="empty-text">Your Cart is currently empty</p>
+
+<!-- Recommended Section -->
+<div id="new-cart-x-recommend" class="smart-recommended-list" style="display:flex; gap: 16px; padding-top: 20px;"></div>
+
+  </div>
+</div>
+
+
+
+
 
       <!-- ✅ User Account Icon -->
       <button id="userIconBtn" class="header-icon-button" aria-label="User account">
@@ -1782,35 +1991,7 @@
   </div>
 </header>
 
-<!-- ✅ Smart Cart Modal -->
-<div id="smart-cart-modal" class="smart-cart-modal hidden">
-  <div class="smart-cart-container">
-    <header class="smart-cart-header">
-      <h2>Smart Cart (<span id="smart-cart-count">0</span>)</h2>
-     <button id="smart-cart-btn" class="header-icon-button">🛒</button>
 
-    </header>
-
-
-    <button class="smart-btn-discount">Apply Discount At the Check Out</button>
-    <div id="smart-cart-items" class="smart-cart-items"></div>
-    <p id="smart-cart-empty" class="smart-empty-text">Your Cart Is currently Empty</p>
-    <div class="smart-cart-total"><strong>Total:</strong> ₹<span id="smart-cart-total">0</span></div>
-    <div class="smart-btn-yellow">No Savings on this order</div>
-    <button class="smart-btn-green">Continue Browsing</button>
-
-    <section class="smart-recommended">
-      <h3>Recommended Products</h3>
-      <div class="smart-recommended-list">
-        <div class="smart-recommended-card">
-          <img src="image/plants/aglonima.webp" alt="Aglaonema">
-          <p class="smart-reco-title">Aglaonema Ice Plant</p>
-          <p class="smart-reco-price">₹280</p>
-        </div>
-      </div>
-    </section>
-  </div>
-</div>
 
 <!-- ✅ User Account Modal Fullscreen Version -->
 <section class="account-container hidden" role="dialog" aria-labelledby="accountTitle" aria-modal="true" style="background: url('https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/9e2470bd-7ef7-41ac-89ba-01086271bf9c.png') no-repeat center center / cover; padding: 2rem;">
@@ -1908,8 +2089,8 @@
  <div class="navbar">
   <a href="Index.html">Home</a>
   <a href="html/best-seller.html">Best Seller</a>
-  <a href="#" id="deal-of-day-link">Deal Of the Day</a>
-  <a href="track-order.html">Track Your Order</a>
+  <a href="html/deal.html" id="html/deal.html">Deal Of the Day</a>
+  <a href="html/track-order.html">Track Your Order</a>
   <a href="contact.html">Contact</a>
   <a href="html/about-us.html">About Us</a>
 </div>
