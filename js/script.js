@@ -153,6 +153,22 @@ let bestGrid;
 let priceFilter, sizeFilter, sunlightFilter, waterFilter;
 let currentPage = 1;
 const PRODUCTS_PER_PAGE = 9;
+let newCartX = [];
+
+const recommendedProducts = [
+  {
+    name: "Aglaonema Ice Plant",
+    price: 280,
+    img: "image/plants/aglonima.webp",
+    rating: 4.5
+  },
+  {
+    name: "Lucky Jade Plant",
+    price: 290,
+    img: "image/plants/jade plant.jpg",
+    rating: 4.8
+  }
+];
 
 // ========== RENDER PRODUCTS ==========
 function renderProducts(products, container) {
@@ -175,13 +191,15 @@ function renderProducts(products, container) {
         </div>
       </div>
       <div class="product-price">₹${product.price}</div>
-     <button class="btn-add-basket" onclick="addSmartCartItem('${product.name}', ${product.price}, '${product.img}')">
+      <button class="btn-add-basket" onclick="addNewCartXItem('${product.name}', ${product.price}, '${product.img}')">
         Add to Basket
       </button>
     `;
     container.appendChild(productCard);
   });
 }
+
+
 
 function renderPaginatedProducts(page = 1) {
   const start = (page - 1) * PRODUCTS_PER_PAGE;
@@ -191,55 +209,6 @@ function renderPaginatedProducts(page = 1) {
   currentPage = page;
   renderPaginationControls();
 }
-
-// ========== ADD TO CART ==========
-let cart = [];
-
-function addToCart(name, price, img) {
-  cart.push({ name, price, img });
-  updateCartDisplay();
-}
-
-function updateCartDisplay() {
-  const cartItems = document.querySelector(".cart-items");
-  const cartCount = document.getElementById("cart-count");
-  const cartTotal = document.getElementById("cart-total-price");
-
-  cartItems.innerHTML = "";
-  let total = 0;
-
-  cart.forEach(item => {
-    const itemEl = document.createElement("div");
-    itemEl.className = "cart-item";
-    itemEl.innerHTML = `
-      <div class="item-info">
-
-      <div class="smart-img-wrapper">
-        <img src="${item.img}" alt="${item.name}" style="width: 50px;" />
-        <span>${item.name}</span>
-        <div class="smart-img-wrapper">
-      </div>
-      <span>₹${item.price}</span>
-    `;
-    cartItems.appendChild(itemEl);
-    total += item.price;
-  });
-
-  cartCount.textContent = cart.length;
-  cartTotal.textContent = `₹${total}`;
-}
-
-const userIconBtn = document.getElementById("userIconBtn");
-const accountModal = document.querySelector(".account-container");
-const closeAccountBtn = document.querySelector(".account-close-btn");
-
-userIconBtn.addEventListener("click", () => {
-  accountModal.classList.remove("hidden");
-});
-
-closeAccountBtn.addEventListener("click", () => {
-  accountModal.classList.add("hidden");
-});
 
 // ========== CATEGORY SCROLL BUTTON FILTER ==========
 function setupCategoryScrollFilter() {
@@ -253,12 +222,10 @@ function setupCategoryScrollFilter() {
         product.tags.includes(selectedCategory)
       );
 
-      // Show heading
       const heading = document.getElementById('category-heading');
       heading.innerText = selectedCategory;
       heading.style.display = 'block';
 
-      // Hide banners
       document.querySelectorAll('.top-banner, .discount-banner, .promo-yellow-banner').forEach(el => {
         el.style.display = 'none';
       });
@@ -268,7 +235,6 @@ function setupCategoryScrollFilter() {
   });
 }
 
-// ========== RENDER CATEGORY SCROLL BUTTONS ==========
 function renderCategories() {
   const categories = [
     { name: "XL Indoor Plant", img: "image/plants/black rubber md.webp" },
@@ -297,20 +263,19 @@ function renderCategories() {
   });
 }
 
-// ========== RESET BUTTON ==========
+
+
+// ========== RESET CATEGORY ==========
 document.getElementById("reset-category")?.addEventListener("click", () => {
   filteredProducts = [...allProducts];
   renderPaginatedProducts(1);
 
-  // Show banners
   document.querySelectorAll('.top-banner, .discount-banner, .promo-yellow-banner').forEach(el => {
     el.style.display = '';
   });
 
-  // Hide heading
   document.getElementById('category-heading').style.display = 'none';
 });
-
 
 // ========== FILTER FUNCTIONALITY ==========
 function setupFilters() {
@@ -380,6 +345,28 @@ document.addEventListener("DOMContentLoaded", () => {
   renderCategories();
   setupCategoryScrollFilter();
   setupFilters();
+
+  const cartBtn = document.getElementById("smart-cart-btn");
+  const cartModal = document.getElementById("new-cart-x-modal");
+  const cartClose = document.getElementById("new-cart-x-close");
+
+  cartBtn?.addEventListener("click", () => {
+    cartModal?.classList.remove("hidden");
+  });
+
+  cartClose?.addEventListener("click", () => {
+    cartModal?.classList.add("hidden");
+  });
+
+  const payNowBtn = document.getElementById("cart-pay-now");
+  if (payNowBtn) {
+    payNowBtn.addEventListener("click", () => {
+      alert("✅ Payment Confirmed!\nThank you for your order.");
+      newCartX = [];
+      renderNewCartX();
+      document.getElementById("new-cart-x-modal").classList.add("hidden");
+    });
+  }
 });
 
 // ========== SEARCH ==========
@@ -409,7 +396,6 @@ function renderPaginationControls() {
     <button class="nav-btn" id="pagi-next" ${currentPage === totalPages ? "disabled" : ""}>&gt;</button>
   `;
 
-  // Add listeners after rendering
   paginationContainer.querySelectorAll(".page-btn").forEach(button => {
     button.addEventListener("click", () => {
       const page = parseInt(button.dataset.page);
@@ -426,16 +412,6 @@ function renderPaginationControls() {
   });
 }
 
-
-document.getElementById('pagi-prev').addEventListener('click', () => {
-  if (currentPage > 1) renderPaginatedProducts(currentPage - 1);
-});
-
-document.getElementById('pagi-next').addEventListener('click', () => {
-  const totalPages = Math.ceil(filteredProducts.length / PRODUCTS_PER_PAGE);
-  if (currentPage < totalPages) renderPaginatedProducts(currentPage + 1);
-});
-
 function updatePaginationUI() {
   document.querySelectorAll('.page-btn').forEach(btn => {
     btn.classList.remove('active');
@@ -448,85 +424,94 @@ function updatePaginationUI() {
   document.getElementById('pagi-next').disabled = currentPage === Math.ceil(filteredProducts.length / PRODUCTS_PER_PAGE);
 }
 
-
-
-// ✅ SMART CART SETUP (Inside existing DOMContentLoaded)
-const smartCartBtn = document.getElementById("smart-cart-btn");
-const smartCartModal = document.getElementById("smart-cart-modal");
-const smartCartClose = document.getElementById("smart-cart-close");
-const smartCartItems = document.getElementById("smart-cart-items");
-const smartCartCount = document.getElementById("smart-cart-count");
-const smartCartTotal = document.getElementById("smart-cart-total");
-const smartEmptyText = document.getElementById("smart-cart-empty");
-
-let smartCart = [];
-
-if (smartCartBtn && smartCartModal) {
-  smartCartBtn.addEventListener("click", () => {
-    smartCartModal.classList.remove("hidden");
-  });
-
-  smartCartClose.addEventListener("click", () => {
-    smartCartModal.classList.add("hidden");
-  });
-}
-
-window.addSmartCartItem = function(name, price, img) {
-  const existing = smartCart.find(i => i.name === name);
+// ========== NEW CART X ITEM ADD ==========
+window.addNewCartXItem = function(name, price, img) {
+  const existing = newCartX.find(i => i.name === name);
   if (existing) {
     existing.qty++;
   } else {
-    smartCart.push({ name, price, img, qty: 1 });
+    newCartX.push({ name, price, img, qty: 1 });
   }
-  renderSmartCart();
+  renderNewCartX();
+};
+
+function updateNewCartXQty(index, delta) {
+  newCartX[index].qty += delta;
+  if (newCartX[index].qty <= 0) newCartX.splice(index, 1);
+  renderNewCartX();
 }
 
-function renderSmartCart() {
-  smartCartItems.innerHTML = "";
-  let total = 0;
-  let count = 0;
+function removeNewCartXItem(index) {
+  newCartX.splice(index, 1);
+  renderNewCartX();
+}
 
-  if (smartCart.length === 0) {
-    smartEmptyText.style.display = "block";
-  } else {
-    smartEmptyText.style.display = "none";
-  }
+function renderNewCartX() {
+  const container = document.getElementById("new-cart-x-items");
+  const total = document.getElementById("new-cart-x-total");
+  const count = document.getElementById("smart-cart-icon-count");
+  const emptyText = document.querySelector(".empty-text");
+  const recommended = document.getElementById("new-cart-x-recommend");
 
-  smartCart.forEach((item, i) => {
-    total += item.price * item.qty;
-    count += item.qty;
+  container.innerHTML = "";
+
+  let totalAmount = 0;
+  let totalQty = 0;
+
+  newCartX.forEach((item, i) => {
+    totalAmount += item.price * item.qty;
+    totalQty += item.qty;
 
     const div = document.createElement("div");
-    div.className = "smart-cart-item";
+    div.className = "cart-item";
+    div.style.display = "flex";
+    div.style.alignItems = "center";
+    div.style.justifyContent = "space-between";
+    div.style.marginBottom = "12px";
+
     div.innerHTML = `
       <div style="display:flex; gap:10px; align-items:center">
-        <img src="${item.img}" alt="${item.name}" width="50" height="50"/>
-        <div>
-          <div><strong>${item.name}</strong></div>
-          <div>₹${item.price} × ${item.qty}</div>
+        <img src="${item.img}" width="50" height="50" style="border-radius:6px"/>
+        <div style="display:flex; flex-direction:column;">
+          <strong style="font-size: 1rem; line-height: 1.1;">${item.name}</strong>
+          <div style="font-size: 0.9rem; color:#444;">₹${item.price}</div>
         </div>
       </div>
-      <div style="display:flex; gap:5px; align-items:center">
-        <button onclick="updateSmartQty(${i}, -1)">−</button>
-        <span style="min-width: 20px; text-align:center;">${item.qty}</span>
-        <button onclick="updateSmartQty(${i}, 1)">+</button>
-        <button onclick="removeSmartItem(${i})">🗑️</button>
+      <div style="display:flex; align-items:center; gap:5px">
+        <button onclick="updateNewCartXQty(${i}, -1)">−</button>
+        <span class="qty-number" style="min-width: 24px; text-align:center; font-weight:bold; display:inline-block; color: #121f13;">${item.qty}</span>
+        <button onclick="updateNewCartXQty(${i}, 1)">+</button>
+        <button onclick="removeNewCartXItem(${i})">🗑️</button>
       </div>
     `;
-    smartCartItems.appendChild(div);
+    container.appendChild(div);
   });
 
-  smartCartCount.textContent = count;
-  smartCartTotal.textContent = total;
+  total.textContent = totalAmount;
+  count.textContent = totalQty;
+  emptyText.style.display = newCartX.length ? "none" : "block";
+  const insideQty = document.getElementById("cart-inside-qty");
+  if (insideQty) insideQty.textContent = totalQty;
+
+  if (recommended) {
+    recommended.innerHTML = `
+      <h3 style="font-family: Georgia, serif; font-size: 1.2rem; font-weight: bold; margin: 12px 0 10px; color: #121f13;">Recommended Products</h3>
+      <div style="display: flex; gap: 12px; overflow-x: auto; padding-bottom: 8px;">
+        ${recommendedProducts.map(p => `
+          <div class="smart-recommended-card" style="min-width: 130px; max-width: 140px; flex-shrink: 0; padding: 8px; border: 1px solid #ccc; border-radius: 8px; background: #fff; box-shadow: 0 0 4px rgba(0,0,0,0.1);">
+            <img src="${p.img}" alt="${p.name}" style="width:100%; height:100px; object-fit:contain; margin-bottom: 6px;" />
+            <p class="smart-reco-title" style="font-weight: bold; font-size: 0.95rem; margin: 4px 0;">${p.name}</p>
+            <p class="smart-reco-price" style="color: #2c5c2f;">₹${p.price}</p>
+          </div>
+        `).join("")}
+      </div>
+    `;
+  }
+
+  const payNowBtn = document.getElementById("cart-pay-now");
+  if (payNowBtn) {
+    payNowBtn.style.display = newCartX.length ? "block" : "none";
+  }
 }
 
-window.updateSmartQty = function(i, delta) {
-  smartCart[i].qty += delta;
-  if (smartCart[i].qty <= 0) smartCart.splice(i, 1);
-  renderSmartCart();
-}
-
-window.removeSmartItem = function(i) {
-  smartCart.splice(i, 1);
-  renderSmartCart();
-}
+if (document.getElementById("new-cart-x-items")) renderNewCartX();
